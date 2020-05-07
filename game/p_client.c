@@ -618,9 +618,9 @@ void InitClientPersistant(gclient_t *client)
 	client->pers.selected_item = ITEM_INDEX(item2);
 	client->pers.inventory[client->pers.selected_item] = 2;
 
-
+	
 	client->pers.weapon = item;
-	client->pers.weapon = item2;
+	//client->pers.weapon = item2;
 
 	client->pers.health			= 100;
 	client->pers.max_health		= 100;
