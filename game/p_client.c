@@ -620,7 +620,7 @@ void InitClientPersistant(gclient_t *client)
 
 	
 	client->pers.weapon = item;
-	//client->pers.weapon = item2;
+	client->pers.weapon = item2;
 
 	client->pers.health			= 100;
 	client->pers.max_health		= 100;
