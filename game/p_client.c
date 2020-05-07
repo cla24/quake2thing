@@ -604,17 +604,23 @@ This is only called when the game first initializes in single player,
 but is called after each death and level change in deathmatch
 ==============
 */
-void InitClientPersistant (gclient_t *client)
+void InitClientPersistant(gclient_t *client)
 {
-	gitem_t		*item;
+	gitem_t		*item, *item2;
 
-	memset (&client->pers, 0, sizeof(client->pers));
+	memset(&client->pers, 0, sizeof(client->pers));
 
 	item = FindItem("Blaster");
 	client->pers.selected_item = ITEM_INDEX(item);
 	client->pers.inventory[client->pers.selected_item] = 1;
 
+	item2 = FindItem("HyperBlaster");
+	client->pers.selected_item = ITEM_INDEX(item2);
+	client->pers.inventory[client->pers.selected_item] = 2;
+
+
 	client->pers.weapon = item;
+	client->pers.weapon = item2;
 
 	client->pers.health			= 100;
 	client->pers.max_health		= 100;
