@@ -620,11 +620,12 @@ void InitClientPersistant(gclient_t *client)
 	
 	item3 = FindItem("shells");
 	client->pers.selected_item = ITEM_INDEX(item3);
-	client->pers.inventory[client->pers.selected_item] = 10;
+	client->pers.inventory[client->pers.selected_item] = 5;
 	
 	client->pers.weapon = item;
 	client->pers.weapon = item2;
 	client->pers.shells = item3;
+	//gi.cprintf(client, PRINT_HIGH, "shotgun/weapon given");
 
 	client->pers.health			= 100;
 	client->pers.max_health		= 100;
@@ -639,6 +640,7 @@ void InitClientPersistant(gclient_t *client)
 	//client->pers.
 
 	client->pers.connected = true;
+
 }
 
 
@@ -647,6 +649,8 @@ void InitClientResp (gclient_t *client)
 	memset (&client->resp, 0, sizeof(client->resp));
 	client->resp.enterframe = level.framenum;
 	client->resp.coop_respawn = client->pers;
+	gi.dprintf("time %d", level.time);
+
 }
 
 /*
