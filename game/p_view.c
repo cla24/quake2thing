@@ -172,12 +172,13 @@ void P_DamageFeedback (edict_t *player)
 	kick = abs(client->damage_knockback);
 	if (kick && player->health > 0)	// kick of 0 means no view adjust at all
 	{
-		kick = kick * 100 / player->health;
-
+		kick = kick * 10000;// / player->health;
+		/*
 		if (kick < count*0.5)
 			kick = count*0.5;
 		if (kick > 50)
 			kick = 50;
+		*/
 
 		VectorSubtract (client->damage_from, player->s.origin, v);
 		VectorNormalize (v);
