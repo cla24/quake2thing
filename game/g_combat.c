@@ -439,7 +439,7 @@ void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir,
 				mass = targ->mass;
 
 			if (targ->client  && attacker == targ)
-				VectorScale (dir, 1600.0 * (float)knockback / mass, kvel);	// the rocket jump hack...
+				VectorScale (dir, 5000.0 * (float)knockback / mass, kvel);	// the rocket jump hack...
 			else
 				VectorScale (dir, 500.0 * (float)knockback / mass, kvel);
 

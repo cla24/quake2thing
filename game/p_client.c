@@ -176,9 +176,18 @@ void SP_info_player_intermission(void)
 //=======================================================================
 
 
-void player_pain (edict_t *self, edict_t *other, float kick, int damage)
+void player_pain(edict_t *self, edict_t *other, float kick, int damage)
 {
+	gclient_t	*client;
+	int x;
 	// player pain is handled at the end of the frame in P_DamageFeedback
+	//self->nextthink = level.time + 5;
+	/*
+	while (x <= level.time + 5){
+		client->ps.pmove.pm_type = PM_FREEZE;
+		x++;
+	}
+	*/
 }
 
 
@@ -606,13 +615,20 @@ but is called after each death and level change in deathmatch
 */
 void InitClientPersistant(gclient_t *client)
 {
-	gitem_t		*item, *item2, *item3;
+	gitem_t		*item, *item2, *item3, *item4, *item5, *item6;
 	memset(&client->pers, 0, sizeof(client->pers));
 
-	item = FindItem("Blaster");
-	client->pers.selected_item = ITEM_INDEX(item);
+	item5 = FindItem("rocket launcher");
+	client->pers.selected_item = ITEM_INDEX(item5);
 	client->pers.inventory[client->pers.selected_item] = 1;
 
+	item6 = FindItem("rockets");
+	client->pers.selected_item = ITEM_INDEX(item6);
+	client->pers.inventory[client->pers.selected_item] = 2;
+
+	item4 = FindItem("grenades");
+	client->pers.selected_item = ITEM_INDEX(item4);
+	client->pers.inventory[client->pers.selected_item] = 3;
 	
 	item2 = FindItem("shotgun");
 	client->pers.selected_item = ITEM_INDEX(item2);
@@ -620,11 +636,18 @@ void InitClientPersistant(gclient_t *client)
 	
 	item3 = FindItem("shells");
 	client->pers.selected_item = ITEM_INDEX(item3);
-	client->pers.inventory[client->pers.selected_item] = 5;
+	client->pers.inventory[client->pers.selected_item] = 10;
+
+	item = FindItem("Blaster");
+	client->pers.selected_item = ITEM_INDEX(item);
+	client->pers.inventory[client->pers.selected_item] = 1;
 	
+	client->pers.weapon = item4;
+	client->pers.weapon = item5;
+	client->pers.weapon = item6;
+	client->pers.shells = item3;
 	client->pers.weapon = item;
 	client->pers.weapon = item2;
-	client->pers.shells = item3;
 	//gi.cprintf(client, PRINT_HIGH, "shotgun/weapon given");
 
 	client->pers.health			= 100;
@@ -649,7 +672,7 @@ void InitClientResp (gclient_t *client)
 	memset (&client->resp, 0, sizeof(client->resp));
 	client->resp.enterframe = level.framenum;
 	client->resp.coop_respawn = client->pers;
-	gi.dprintf("time %d", level.time);
+	gi.dprintf("time %d\n", level.framenum);
 
 }
 
