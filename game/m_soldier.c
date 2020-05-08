@@ -423,6 +423,8 @@ void soldier_pain (edict_t *self, edict_t *other, float kick, int damage)
 
 	self->pain_debounce_time = level.time + 3;
 
+	self->nextthink = level.time + 3;
+
 	n = self->s.skinnum | 1;
 	if (n == 1)
 		gi.sound (self, CHAN_VOICE, sound_pain_light, 1, ATTN_NORM, 0);
@@ -1141,10 +1143,13 @@ mframe_t soldier_frames_death6 [] =
 };
 mmove_t soldier_move_death6 = {FRAME_death601, FRAME_death610, soldier_frames_death6, soldier_dead};
 
-void soldier_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
+void soldier_die(edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
-	int		n;
+	gitem_t		*item;
+	attacker->client;
 
+	int		n;
+	
 // check for gib
 	if (self->health <= self->gib_health)
 	{
@@ -1154,11 +1159,21 @@ void soldier_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 		ThrowGib (self, "models/objects/gibs/chest/tris.md2", damage, GIB_ORGANIC);
 		ThrowHead (self, "models/objects/gibs/head2/tris.md2", damage, GIB_ORGANIC);
 		self->deadflag = DEAD_DEAD;
+		SP_item_health_small();
+		//SP_monster_berserk(self);
+		//weapon_Grenade();
+
+		item = FindItem("grenades");
+		attacker->client->pers.selected_item = ITEM_INDEX(item);
+		attacker->client->pers.inventory[attacker->client->pers.selected_item] += 1;
+
 		return;
 	}
 
-	if (self->deadflag == DEAD_DEAD)
+	if (self->deadflag == DEAD_DEAD){
+		//SP_item_health_small();
 		return;
+	}
 
 // regular death
 	self->deadflag = DEAD_DEAD;
@@ -1176,6 +1191,7 @@ void soldier_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 	{
 		// head shot
 		self->monsterinfo.currentmove = &soldier_move_death3;
+		//SP_item_health_small();
 		return;
 	}
 
