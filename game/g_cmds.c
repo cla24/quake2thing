@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "g_local.h"
 #include "m_player.h"
+#include <stdio.h>
 
 
 char *ClientTeam (edict_t *ent)
@@ -899,6 +900,28 @@ void Cmd_PlayerList_f(edict_t *ent)
 	gi.cprintf(ent, PRINT_HIGH, "%s", text);
 }
 
+/*
+//speed change
+void Cmd_SpeedChange_f(edict_t *ent){
+	float speed = 1000;
+}
+*/
+
+//start time
+void Cmd_startTime(int time){
+	FILE *pFile;
+	pFile = fopen("highscores.txt", "a");
+	fprintf(pFile, "%i\n", time);
+	fclose(pFile);
+}
+
+void Cmd_stopTime(int time){
+	
+	level.stoptime = level.framenum;
+	time = level.stoptime;
+	gi.dprintf(time);
+
+}
 
 /*
 =================
@@ -987,6 +1010,12 @@ void ClientCommand (edict_t *ent)
 		Cmd_Wave_f (ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
+	else if (Q_stricmp(cmd, "stoptime") == 0)
+		Cmd_stopTime(time);
+	/*
+	else if (Q_stricmp(cmd, "speedchange") == 0)
+		Cmd_SpeedChange_f(ent);
+	*/
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }

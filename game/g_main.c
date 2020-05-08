@@ -358,6 +358,7 @@ void G_RunFrame (void)
 	level.framenum++;
 	level.time = level.framenum*FRAMETIME;
 
+
 	// choose a client for monsters to target this frame
 	AI_SetSightClient ();
 

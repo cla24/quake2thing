@@ -539,7 +539,8 @@ GRENADE
 ======================================================================
 */
 
-#define GRENADE_TIMER		3.0
+//#define GRENADE_TIMER		3.0
+#define GRENADE_TIMER		.2
 #define GRENADE_MINSPEED	400
 #define GRENADE_MAXSPEED	800
 
@@ -548,7 +549,7 @@ void weapon_grenade_fire (edict_t *ent, qboolean held)
 	vec3_t	offset;
 	vec3_t	forward, right;
 	vec3_t	start;
-	int		damage = 125;
+	int		damage = 50;
 	float	timer;
 	int		speed;
 	float	radius;
@@ -764,7 +765,7 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 	float	damage_radius;
 	int		radius_damage;
 
-	damage = 100 + (int)(random() * 20.0);
+	damage = 10 + (int)(random() * 20.0);
 	radius_damage = 120;
 	damage_radius = 120;
 	if (is_quad)
@@ -799,7 +800,7 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 void Weapon_RocketLauncher (edict_t *ent)
 {
 	static int	pause_frames[]	= {25, 33, 42, 50, 0};
-	static int	fire_frames[]	= {5, 0};
+	static int	fire_frames[]	= {5,7, 0};
 
 	Weapon_Generic (ent, 4, 12, 50, 54, pause_frames, fire_frames, Weapon_RocketLauncher_Fire);
 }
@@ -851,15 +852,16 @@ void Weapon_Blaster_Fire (edict_t *ent)
 	if (deathmatch->value)
 		damage = 15;
 	else
-		damage = 10;
+		damage = 5;
 	Blaster_Fire (ent, vec3_origin, damage, false, EF_BLASTER);
+
 	ent->client->ps.gunframe++;
 }
 
 void Weapon_Blaster (edict_t *ent)
 {
 	static int	pause_frames[]	= {19, 32, 0};
-	static int	fire_frames[]	= {5, 7, 0};
+	static int	fire_frames[]	= {5, 0};
 
 	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
 }

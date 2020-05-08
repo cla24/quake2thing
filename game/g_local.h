@@ -81,6 +81,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define BODY_QUEUE_SIZE		8
 
+extern int stime, etime;
+
 typedef enum
 {
 	DAMAGE_NO,
@@ -271,6 +273,7 @@ typedef struct
 {
 	char		helpmessage1[512];
 	char		helpmessage2[512];
+	
 	int			helpchanged;	// flash F1 icon if non 0, play sound
 								// and increment only if 1, 2, or 3
 
@@ -302,6 +305,9 @@ typedef struct
 {
 	int			framenum;
 	float		time;
+	int starttime;
+	int stoptime;
+
 
 	char		level_name[MAX_QPATH];	// the descriptive name (Outer Base, etc)
 	char		mapname[MAX_QPATH];		// the server name (base1, etc)
@@ -333,6 +339,7 @@ typedef struct
 
 	int			total_monsters;
 	int			killed_monsters;
+	int			collecteditems;
 
 	edict_t		*current_entity;	// entity running from G_RunFrame
 	int			body_que;			// dead bodies
@@ -1045,7 +1052,7 @@ struct edict_s
 	void		(*touch)(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf);
 	void		(*use)(edict_t *self, edict_t *other, edict_t *activator);
 	void		(*pain)(edict_t *self, edict_t *other, float kick, int damage);
-	void		(*die)(edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point);
+	void(*die)(edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point);
 
 	float		touch_debounce_time;		// are all these legit?  do we need more/less of them?
 	float		pain_debounce_time;

@@ -72,7 +72,7 @@ void P_DamageFeedback (edict_t *player)
 {
 	gclient_t	*client;
 	float	side;
-	float	realcount, count, kick;
+	float	realcount, count, kick, x;
 	vec3_t	v;
 	int		r, l;
 	static	vec3_t	power_color = {0.0, 1.0, 0.0};
@@ -133,7 +133,7 @@ void P_DamageFeedback (edict_t *player)
 	if ((level.time > player->pain_debounce_time) && !(player->flags & FL_GODMODE) && (client->invincible_framenum <= level.framenum))
 	{
 		r = 1 + (rand()&1);
-		player->pain_debounce_time = level.time + 0.7;
+		player->pain_debounce_time = level.time + 2;
 		if (player->health < 25)
 			l = 25;
 		else if (player->health < 50)
@@ -172,13 +172,14 @@ void P_DamageFeedback (edict_t *player)
 	kick = abs(client->damage_knockback);
 	if (kick && player->health > 0)	// kick of 0 means no view adjust at all
 	{
-		kick = kick * 10000;// / player->health;
+		kick = kick * 100000;// / player->health;
 		/*
 		if (kick < count*0.5)
 			kick = count*0.5;
 		if (kick > 50)
 			kick = 50;
 		*/
+		
 
 		VectorSubtract (client->damage_from, player->s.origin, v);
 		VectorNormalize (v);
@@ -191,6 +192,13 @@ void P_DamageFeedback (edict_t *player)
 
 		client->v_dmg_time = level.time + DAMAGE_TIME;
 	}
+	/*
+		while (x <= 10000){
+		client->ps.pmove.pm_type = PM_FREEZE;
+		x++;
+	}
+	*/
+	//player->nextthink = level.time + 3;
 
 	//
 	// clear totals

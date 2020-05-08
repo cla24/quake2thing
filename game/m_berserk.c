@@ -380,6 +380,8 @@ mmove_t berserk_move_death2 = {FRAME_deathc1, FRAME_deathc8, berserk_frames_deat
 
 void berserk_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
+	gitem_t		*item,*item2;
+
 	int		n;
 
 	if (self->health <= self->gib_health)
@@ -391,7 +393,19 @@ void berserk_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 			ThrowGib (self, "models/objects/gibs/sm_meat/tris.md2", damage, GIB_ORGANIC);
 		ThrowHead (self, "models/objects/gibs/head2/tris.md2", damage, GIB_ORGANIC);
 		self->deadflag = DEAD_DEAD;
+		
+		SP_item_health_small();
+
+		item = FindItem("quad damage");
+		attacker->client->pers.selected_item = ITEM_INDEX(item);
+		attacker->client->pers.inventory[attacker->client->pers.selected_item] += 1;
+		item2 = FindItem("invunerability");
+		attacker->client->pers.selected_item = ITEM_INDEX(item);
+		attacker->client->pers.inventory[attacker->client->pers.selected_item] += 1;
+
 		return;
+
+		
 	}
 
 	if (self->deadflag == DEAD_DEAD)
@@ -432,7 +446,7 @@ void SP_monster_berserk (edict_t *self)
 	self->movetype = MOVETYPE_STEP;
 	self->solid = SOLID_BBOX;
 
-	self->health = 240;
+	self->health = 24;
 	self->gib_health = -60;
 	self->mass = 250;
 

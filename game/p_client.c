@@ -615,8 +615,13 @@ but is called after each death and level change in deathmatch
 */
 void InitClientPersistant(gclient_t *client)
 {
-	gitem_t		*item, *item2, *item3, *item4, *item5, *item6;
+	gitem_t		*item, *item2, *item3, *item4, *item5, *item6,*item7;
 	memset(&client->pers, 0, sizeof(client->pers));
+
+	item7 = FindItem("invulnerability");
+	client->pers.selected_item = ITEM_INDEX(item7);
+	client->pers.inventory[client->pers.selected_item] = 1;
+
 
 	item5 = FindItem("rocket launcher");
 	client->pers.selected_item = ITEM_INDEX(item5);
@@ -624,34 +629,35 @@ void InitClientPersistant(gclient_t *client)
 
 	item6 = FindItem("rockets");
 	client->pers.selected_item = ITEM_INDEX(item6);
-	client->pers.inventory[client->pers.selected_item] = 2;
+	client->pers.inventory[client->pers.selected_item] = 4;
 
-	item4 = FindItem("grenades");
-	client->pers.selected_item = ITEM_INDEX(item4);
-	client->pers.inventory[client->pers.selected_item] = 3;
-	
 	item2 = FindItem("shotgun");
 	client->pers.selected_item = ITEM_INDEX(item2);
 	client->pers.inventory[client->pers.selected_item] = 1;
-	
+
+	item4 = FindItem("grenades");
+	client->pers.selected_item = ITEM_INDEX(item4);
+	client->pers.inventory[client->pers.selected_item] = 3;	
+
 	item3 = FindItem("shells");
 	client->pers.selected_item = ITEM_INDEX(item3);
-	client->pers.inventory[client->pers.selected_item] = 10;
+	client->pers.inventory[client->pers.selected_item] = 15;
 
 	item = FindItem("Blaster");
 	client->pers.selected_item = ITEM_INDEX(item);
 	client->pers.inventory[client->pers.selected_item] = 1;
 	
+	client->pers.weapon = item7;
 	client->pers.weapon = item4;
 	client->pers.weapon = item5;
 	client->pers.weapon = item6;
 	client->pers.shells = item3;
-	client->pers.weapon = item;
 	client->pers.weapon = item2;
+	client->pers.weapon = item;
 	//gi.cprintf(client, PRINT_HIGH, "shotgun/weapon given");
 
 	client->pers.health			= 100;
-	client->pers.max_health		= 100;
+	client->pers.max_health		= 150;
 
 	client->pers.max_bullets	= 200;
 	client->pers.max_shells		= 100;
@@ -661,7 +667,6 @@ void InitClientPersistant(gclient_t *client)
 	client->pers.max_slugs		= 50;
 	  
 	//client->pers.
-
 	client->pers.connected = true;
 
 }
@@ -673,7 +678,8 @@ void InitClientResp (gclient_t *client)
 	client->resp.enterframe = level.framenum;
 	client->resp.coop_respawn = client->pers;
 	gi.dprintf("time %d\n", level.framenum);
-
+	level.starttime = level.framenum;
+	Cmd_startTime(level.starttime);
 }
 
 /*

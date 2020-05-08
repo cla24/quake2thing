@@ -422,8 +422,9 @@ void soldier_pain (edict_t *self, edict_t *other, float kick, int damage)
 	}
 
 	self->pain_debounce_time = level.time + 3;
-
+	
 	self->nextthink = level.time + 3;
+
 
 	n = self->s.skinnum | 1;
 	if (n == 1)
@@ -509,14 +510,14 @@ void soldier_fire (edict_t *self, int flash_number)
 	}
 	else if (self->s.skinnum <= 3)
 	{
-		monster_fire_shotgun (self, start, aim, 2, 1, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, DEFAULT_SHOTGUN_COUNT, flash_index);
+		monster_fire_shotgun (self, start, aim, 5, 1, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, DEFAULT_SHOTGUN_COUNT, flash_index);
 	}
 	else
 	{
 		if (!(self->monsterinfo.aiflags & AI_HOLD_FRAME))
 			self->monsterinfo.pausetime = level.time + (3 + rand() % 8) * FRAMETIME;
 
-		monster_fire_bullet (self, start, aim, 2, 4, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, flash_index);
+		monster_fire_bullet (self, start, aim, 5, 4, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, flash_index);
 
 		if (level.time >= self->monsterinfo.pausetime)
 			self->monsterinfo.aiflags &= ~AI_HOLD_FRAME;
@@ -1159,8 +1160,9 @@ void soldier_die(edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 		ThrowGib (self, "models/objects/gibs/chest/tris.md2", damage, GIB_ORGANIC);
 		ThrowHead (self, "models/objects/gibs/head2/tris.md2", damage, GIB_ORGANIC);
 		self->deadflag = DEAD_DEAD;
-		SP_item_health_small();
-		//SP_monster_berserk(self);
+		//SP_item_health_small();
+		SP_monster_berserk(self);
+		//SP_monster_gunner();
 		//weapon_Grenade();
 
 		item = FindItem("grenades");

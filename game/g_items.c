@@ -398,10 +398,15 @@ void	Use_Invulnerability (edict_t *ent, gitem_t *item)
 	ent->client->pers.inventory[ITEM_INDEX(item)]--;
 	ValidateSelectedItem (ent);
 
-	if (ent->client->invincible_framenum > level.framenum)
+	if (ent->client->invincible_framenum > level.framenum){
 		ent->client->invincible_framenum += 300;
-	else
+		ent->client-> ps.pmove.pm_type = PM_FREEZE;
+		gi.dprintf("invulnerable");
+	}
+	else{
 		ent->client->invincible_framenum = level.framenum + 300;
+		ent->client->ps.pmove.pm_type = PM_FREEZE;
+	}
 
 	gi.sound(ent, CHAN_ITEM, gi.soundindex("items/protect.wav"), 1, ATTN_NORM, 0);
 }
